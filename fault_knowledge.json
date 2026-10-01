@@ -1,0 +1,164 @@
+{
+  "iso_10816_standard": {
+    "standard": "ISO 10816-3 (Industrial Motors 15kW - 300kW)",
+    "watch_threshold_rms": 4.5,
+    "alarm_threshold_rms": 7.1,
+    "zones": {
+      "Zone A/B": { "label": "Good / Acceptable (OK)", "max_rms": 4.5, "color": "#10B981" },
+      "Zone C": { "label": "Restricted Continuous (WATCH)", "min_rms": 4.5, "max_rms": 7.1, "color": "#F59E0B" },
+      "Zone D": { "label": "Dangerous Vibration (ALARM)", "min_rms": 7.1, "color": "#EF4444" }
+    }
+  },
+  "faults": {
+    "healthy": {
+      "name": "Healthy Baseline Operation",
+      "symptom": "Normal baseline vibration (RMS < 4.5 mm/s), low kurtosis (~3.0 Gaussian), nominal winding temperature and current draw.",
+      "thresholds": {
+        "rms_max": 4.5,
+        "kurtosis_max": 3.5,
+        "temp_max": 65.0,
+        "current_max_factor": 1.05
+      },
+      "cause": "Mechanical assembly, lubrication, and dynamic balance are within standard engineering tolerances.",
+      "recommended_action": "Continue routine condition monitoring. Maintain standard periodic lubrication and vibration logging intervals."
+    },
+    "unbalance": {
+      "name": "Rotor Dynamic Unbalance",
+      "symptom": "Predominant 1X running frequency vibration component (peak_1x >= 3.8 mm/s, ratio 1X/2X >= 1.8), radial direction dominant.",
+      "thresholds": {
+        "rms_min": 4.5,
+        "peak_1x_min": 3.8,
+        "harmonic_ratio_1x_to_2x_min": 1.8
+      },
+      "cause": "Uneven mass distribution on the rotor shaft due to dirt buildup on cooling fan, material erosion, or missing balancing weights.",
+      "recommended_action": "Perform dynamic single/two-plane field balancing using a strobe/tachometer. Inspect rotor fan for dirt buildup or damaged blades."
+    },
+    "misalignment": {
+      "name": "Shaft / Coupling Misalignment",
+      "symptom": "Dominant 2X rotational speed harmonic (peak_2x >= 2.8 mm/s, ratio 2X/1X >= 0.8), elevated axial vibration, coupling temperature rise.",
+      "thresholds": {
+        "rms_min": 4.2,
+        "peak_2x_min": 2.8,
+        "harmonic_ratio_2x_to_1x_min": 0.8,
+        "temp_min": 60.0
+      },
+      "cause": "Thermal expansion mismatch, soft-foot condition, improper base shimming during installation, or pipe strain pulling the pump casing.",
+      "recommended_action": "Check soft-foot tolerance (< 0.05 mm) using feeler gauges. Perform precision laser shaft alignment on motor-to-pump coupling."
+    },
+    "bearing_wear": {
+      "name": "Rolling Element Bearing Defect",
+      "symptom": "Elevated Kurtosis (> 3.8 indicates impulsive shock impacts from spalls), bearing housing temperature rise (> 70 °C), high-frequency harmonics.",
+      "thresholds": {
+        "kurtosis_min": 3.8,
+        "rms_min": 3.5,
+        "temp_min": 70.0
+      },
+      "cause": "L10 fatigue spalling on race raceways, insufficient or contaminated grease, mechanical over-tightening, or fluting from VFD PWM voltages.",
+      "recommended_action": "Inspect grease condition for metal flakes and degradation. Schedule bearing replacement during next maintenance window; increase monitoring frequency."
+    },
+    "overload_jam": {
+      "name": "Mechanical Overload / Impeller Jam",
+      "symptom": "Motor current exceeds 115% of rated current, rotor RPM drops below rated slip, rapid winding temperature rise, elevated overall RMS.",
+      "thresholds": {
+        "current_ratio_min": 1.15,
+        "rpm_drop_percent_min": 5.0,
+        "temp_min": 75.0,
+        "rms_min": 4.8
+      },
+      "cause": "Debris lodged in pump impeller or driven load, excessive slurry viscosity, high discharge head pressure, or mechanical binding in gearbox.",
+      "recommended_action": "Immediately de-energize motor (Lockout/Tagout). Inspect pump suction strainer and casing for foreign debris. Manually verify free rotor shaft rotation."
+    }
+  },
+  "rules": [
+    {
+      "id": "R01",
+      "fault": "unbalance",
+      "metric": "peak_1x",
+      "operator": ">=",
+      "threshold_field": "peak_1x_min",
+      "default_threshold": 3.8,
+      "unit": "mm/s",
+      "description": "Dominant 1X running frequency peak (unbalance signature)"
+    },
+    {
+      "id": "R02",
+      "fault": "unbalance",
+      "metric": "harmonic_ratio_1x_2x",
+      "operator": ">=",
+      "threshold_field": "harmonic_ratio_1x_to_2x_min",
+      "default_threshold": 1.8,
+      "unit": "ratio",
+      "description": "1X harmonic substantially greater than 2X harmonic"
+    },
+    {
+      "id": "R03",
+      "fault": "misalignment",
+      "metric": "peak_2x",
+      "operator": ">=",
+      "threshold_field": "peak_2x_min",
+      "default_threshold": 2.8,
+      "unit": "mm/s",
+      "description": "2X harmonic indicates angular or parallel misalignment"
+    },
+    {
+      "id": "R04",
+      "fault": "misalignment",
+      "metric": "harmonic_ratio_2x_1x",
+      "operator": ">=",
+      "threshold_field": "harmonic_ratio_2x_to_1x_min",
+      "default_threshold": 0.8,
+      "unit": "ratio",
+      "description": "2X harmonic amplitude is at least 80% of 1X"
+    },
+    {
+      "id": "R05",
+      "fault": "bearing_wear",
+      "metric": "kurtosis",
+      "operator": ">=",
+      "threshold_field": "kurtosis_min",
+      "default_threshold": 3.8,
+      "unit": "",
+      "description": "Impulsive impact kurtosis indicates bearing surface spalling"
+    },
+    {
+      "id": "R06",
+      "fault": "bearing_wear",
+      "metric": "temp",
+      "operator": ">=",
+      "threshold_field": "temp_min",
+      "default_threshold": 70.0,
+      "unit": "°C",
+      "description": "Frictional heating at bearing housing"
+    },
+    {
+      "id": "R07",
+      "fault": "overload_jam",
+      "metric": "current_ratio",
+      "operator": ">=",
+      "threshold_field": "current_ratio_min",
+      "default_threshold": 1.15,
+      "unit": "x rated",
+      "description": "Stator current exceeds 115% of rated full-load current"
+    },
+    {
+      "id": "R08",
+      "fault": "overload_jam",
+      "metric": "rpm_drop_percent",
+      "operator": ">=",
+      "threshold_field": "rpm_drop_percent_min",
+      "default_threshold": 5.0,
+      "unit": "% drop",
+      "description": "Excessive motor slip / speed drop under heavy mechanical load"
+    },
+    {
+      "id": "R09",
+      "fault": "general_alarm",
+      "metric": "rms",
+      "operator": ">=",
+      "threshold_field": "alarm_threshold_rms",
+      "default_threshold": 7.1,
+      "unit": "mm/s",
+      "description": "ISO 10816 Zone D critical vibration limit"
+    }
+  ]
+}

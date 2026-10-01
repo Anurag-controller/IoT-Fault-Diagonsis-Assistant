@@ -1,0 +1,6 @@
+{
+  "name": "Knowledge-Driven IoT Fault Diagnosis Assistant",
+  "description": "Real-time industrial motor fault diagnosis dashboard with ISO 10816 vibration monitoring, explainable expert rules, and predictive alert management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

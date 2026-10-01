@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .bg-gradient-brand {
+    background: linear-gradient(135deg, #1F7A4D 0%, #4D9670 28%, #8572B8 72%, #7C5CBF 100%);
+  }
+
+  .bg-gradient-brand-subtle {
+    background: linear-gradient(135deg, rgba(31, 122, 77, 0.08) 0%, rgba(201, 182, 242, 0.12) 60%, rgba(124, 92, 191, 0.08) 100%);
+  }
+
+  .text-gradient-brand {
+    background: linear-gradient(135deg, #1F7A4D 0%, #6FAE8C 40%, #7C5CBF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .card-shadow {
+    box-shadow: 0 4px 20px rgba(124, 92, 191, 0.07), 0 1px 3px rgba(46, 39, 64, 0.03);
+  }
+
+  .card-shadow-hover {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .card-shadow-hover:hover {
+    box-shadow: 0 10px 25px rgba(124, 92, 191, 0.12), 0 2px 6px rgba(46, 39, 64, 0.04);
+    transform: translateY(-1px);
+  }
+
+  .schematic-pulse-watch {
+    animation: heartbeatWatch 2.2s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  .schematic-pulse-alarm {
+    animation: heartbeatAlarm 1.8s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  .aura-pulse {
+    animation: auraPulse 2s ease-in-out infinite;
+    transform-origin: center;
+  }
+}
+
+@keyframes auraPulse {
+  0%, 100% {
+    transform: scale(0.95);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 0.85;
+  }
+}
+
+@keyframes heartbeatWatch {
+  0%, 100% {
+    opacity: 0.45;
+    filter: drop-shadow(0 0 2px rgba(59, 130, 246, 0.4));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 14px rgba(59, 130, 246, 0.9));
+  }
+}
+
+@keyframes heartbeatAlarm {
+  0%, 100% {
+    opacity: 0.4;
+    filter: drop-shadow(0 0 3px rgba(239, 68, 68, 0.45));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 18px rgba(239, 68, 68, 0.95));
+  }
+}
+
+body {
+  background-color: #F8F7FC;
+  color: #2E2740;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}

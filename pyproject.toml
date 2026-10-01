@@ -1,0 +1,18 @@
+[project]
+name = "faultsense-iot"
+version = "0.1.0"
+description = "Knowledge-Driven IoT Fault Diagnosis Assistant"
+requires-python = ">=3.10"
+dependencies = [
+    "streamlit>=1.37.0",
+    "pandas>=2.0.0",
+    "plotly>=5.18.0",
+    "numpy>=1.24.0",
+    "paho-mqtt>=2.0.0"
+]
+
+[tool.uv]
+link-mode = "copy"
+
+[tool.uv.pip]
+link-mode = "copy"

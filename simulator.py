@@ -14,6 +14,10 @@ import math
 import os
 import random
 import sqlite3
+
+# Suppress cross-filesystem hardlink warnings in container/Cloud Run environments
+os.environ.setdefault("UV_LINK_MODE", "copy")
+
 import time
 from datetime import datetime
 

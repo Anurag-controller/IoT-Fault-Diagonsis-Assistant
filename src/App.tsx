@@ -522,10 +522,13 @@ export default function App() {
 
             <div className="h-6 w-[1px] bg-[#EDE8F5]" />
 
-            {/* Industrial Plant Gateway Status */}
+            {/* Industrial Plant Gateway Status & Deployment Link Health */}
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#F4F9F6] border border-[#1F7A4D]/25 text-[11px] font-semibold text-[#1F7A4D]">
               <span className="w-2 h-2 rounded-full bg-[#1F7A4D] animate-pulse" />
               <span>Gateway Online</span>
+              <span className="text-[10px] font-mono text-[#8B849C] hidden sm:inline border-l border-[#1F7A4D]/20 pl-2">
+                UV_LINK_MODE=copy
+              </span>
             </div>
           </div>
         </header>
@@ -661,6 +664,22 @@ export default function App() {
                         onChange={(e) => setMqttTopic(e.target.value)}
                         className="w-full bg-[#F8F7FC] border border-[#EDE8F5] rounded-xl px-3 py-2 text-xs text-[#2E2740] font-mono focus:outline-none focus:border-[#7C5CBF]"
                       />
+                    </div>
+
+                    {/* Deployment Filesystem & Link Mode Status */}
+                    <div className="p-3 rounded-xl bg-[#F8F7FC] border border-[#EDE8F5] flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <div className="text-[11px] font-bold text-[#2E2740] flex items-center gap-1.5">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-[#1F7A4D]" />
+                          <span>Container Link Mode</span>
+                        </div>
+                        <p className="text-[10px] text-[#8B849C]">
+                          Safe copy mode active (<code className="font-mono text-[#7C5CBF]">UV_LINK_MODE=copy</code>)
+                        </p>
+                      </div>
+                      <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-[#F4F9F6] text-[#1F7A4D] border border-[#1F7A4D]/20">
+                        LINK_MODE=copy
+                      </span>
                     </div>
 
                     <div className="pt-2">

@@ -1,6 +1,0 @@
-# UV Configuration
-# Suppresses cross-filesystem hardlink warnings in containerized / Cloud Run environments
-link-mode = "copy"
-
-[pip]
-link-mode = "copy"
